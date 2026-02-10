@@ -1,0 +1,27 @@
+@startuml loginAndRegisterSequenceDiagram
+
+actor User
+participant "Login Page" as LoginPage
+participant "Register Page" as RegisterPage
+
+== User Login ==
+User -> LoginPage: Navigate to Login Page
+LoginPage -> User: Display Login Form
+User -> LoginPage: Enter Credentials
+LoginPage -> LoginPage: Validate Credentials
+alt Successful Login
+    LoginPage -> User: Redirect to Dashboard
+else Failed Login
+    LoginPage -> User: Display Error Message
+end
+
+== User Registration ==
+User -> RegisterPage: Navigate to Register Page
+RegisterPage -> User: Display Registration Form
+User -> RegisterPage: Enter Registration Details
+RegisterPage -> RegisterPage: Validate Registration Details
+alt Successful Registration
+    RegisterPage -> User: Redirect to Welcome Page
+else Failed Registration
+    RegisterPage -> User: Display Error Message
+end
