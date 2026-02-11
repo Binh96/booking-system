@@ -3,16 +3,22 @@
 actor User
 participant "Login Page" as LoginPage
 participant "Register Page" as RegisterPage
+participant "Backend Server" as be
+database "Database" as db
 
 == User Login ==
 User -> LoginPage: Navigate to Login Page
 LoginPage -> User: Display Login Form
 User -> LoginPage: Enter Credentials
-LoginPage -> LoginPage: Validate Credentials
-alt Successful Login
-    LoginPage -> User: Redirect to Dashboard
+LoginPage -> be: Validate Credentials
+be -> db: Query User Data
+db --> be: Return User Data
+alt Successful
+  be -> LoginPage: return success
+  LoginPage -> User: Redirect to Dashboard
 else Failed Login
-    LoginPage -> User: Display Error Message
+  be -> LoginPage: return failure
+  LoginPage -> User: Display Error Message
 end
 
 == User Registration ==
@@ -21,7 +27,11 @@ RegisterPage -> User: Display Registration Form
 User -> RegisterPage: Enter Registration Details
 RegisterPage -> RegisterPage: Validate Registration Details
 alt Successful Registration
-    RegisterPage -> User: Redirect to Welcome Page
+  be -> RegisterPage: return success
+  be -> db: Store New User Data
+  db --> be: Confirmation of Storage
+  RegisterPage -> User: Redirect to Welcome Page
 else Failed Registration
-    RegisterPage -> User: Display Error Message
+  be -> RegisterPage: return failure
+  RegisterPage -> User: Display Error Message
 end
