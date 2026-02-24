@@ -21,11 +21,11 @@ model users {
   email            String     @unique
   membership_level String
   status           String
-  created_at       DateTime
-  updated_at       DateTime
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
   bookings         bookings[]
   role             roles      @relation(references: [id], fields: [role_id])
-  role_id           Int
+  role_id          Int
 }
 
 model resources {
@@ -34,8 +34,8 @@ model resources {
   type            String
   capacity        Int
   status          String
-  created_at      DateTime
-  updated_at      DateTime
+  created_at      DateTime           @default(now())
+  updated_at      DateTime           @updatedAt
   openingHours    opening_hours[]
   bookings        bookings[]
   pricingRules    pricing_rules[]
@@ -43,38 +43,38 @@ model resources {
 }
 
 model opening_hours {
-  id          Int       @id @default(autoincrement())
-  resource_id resources @relation(references: [id], fields: [resources_id])
-  day_of_week String
-  open_time   DateTime
-  close_time  DateTime
-  created_at  DateTime
-  updated_at  DateTime
+  id           Int       @id @default(autoincrement())
+  resource_id  resources @relation(references: [id], fields: [resources_id])
+  day_of_week  String
+  open_time    DateTime
+  close_time   DateTime
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
   resources_id Int
 }
 
 model bookings {
-  id          Int       @id @default(autoincrement())
-  users     users     @relation(references: [id], fields: [user_id])
-  resource_id resources @relation(references: [id], fields: [resources_id])
-  start_time  DateTime
-  end_time    DateTime
-  status      String
-  price       Float
-  created_at  DateTime
-  updated_at  DateTime
-  user_id     Int
+  id           Int       @id @default(autoincrement())
+  users        users     @relation(references: [id], fields: [user_id])
+  resource_id  resources @relation(references: [id], fields: [resources_id])
+  start_time   DateTime
+  end_time     DateTime
+  status       String
+  price        Float
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  user_id      Int
   resources_id Int
 }
 
 model pricing_rules {
-  id          Int       @id @default(autoincrement())
-  resource_id resources @relation(references: [id], fields: [resources_id])
-  rule_type   String
-  priority    Int
-  config      Json
-  created_at  DateTime
-  updated_at  DateTime
+  id           Int       @id @default(autoincrement())
+  resource_id  resources @relation(references: [id], fields: [resources_id])
+  rule_type    String
+  priority     Int
+  config       Json
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
   resources_id Int
 }
 
@@ -85,9 +85,9 @@ model booking_policies {
   min_notice_minutes          Int
   max_bookings_per_day        Int
   cancellation_window_minutes Int
-  created_at                  DateTime
-  updated_at                  DateTime
-  resources_id                 Int
+  created_at                  DateTime  @default(now())
+  updated_at                  DateTime  @updatedAt
+  resources_id                Int
 }
 
 model roles {
