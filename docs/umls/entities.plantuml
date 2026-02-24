@@ -10,6 +10,7 @@ entity users {
   * status: string
   * created_at : datetime
   * updated_at : datetime
+  * role_id : int
 }
 
 entity resources {
@@ -68,4 +69,10 @@ entity booking_policies {
   * cancellation_window_minutes : int
   * created_at : datetime
   * updated_at : datetime
+}
+
+entity roles {
+  * id : int
+  --
+  * name : string
 }

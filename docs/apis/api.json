@@ -5,88 +5,94 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/login": {
-      "post": {
-        "summary": "User Login",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "maxLength": 12,
-                    "example": "user12345678"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                },
-                "required": ["username", "password"]
-              }
-            }
-          }
-        },
+    "/bookings": {
+      "get": {
+        "summary": "Get all bookings",
         "responses": {
           "200": {
-            "description": "Successful login",
+            "description": "A list of bookings",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string"
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Booking"
                   }
                 }
               }
             }
-          },
-          "401": {
-            "description": "Unauthorized"
           }
         }
-      }
-    },
-    "/register": {
+      },
       "post": {
-        "summary": "User Registration",
+        "summary": "Create a new booking",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "maxLength": 12,
-                    "example": "newuser1234"
-                  },
-                  "password": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  }
-                },
-                "required": ["username", "password", "email"]
+                "$ref": "#/components/schemas/PostBooking"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "User registered successfully"
+            "description": "Booking created successfully"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Booking is invalid"
           }
         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Booking": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "customerName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["Booked", "Available"]
+          },
+          "workingHours": {
+            "type": "number",
+            "description": "Working hours for the booking slot (e.g., '60 minutes')",
+            "example": 60
+          }
+        },
+        "required": ["customerName", "date", "status"]
+      },
+      "PostBooking": {
+        "type": "object",
+        "properties": {
+          "customerName": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workingHours": {
+            "type": "number",
+            "description": "Working hours for the booking slot (e.g., '60 minutes')",
+            "example": 60
+          }
+        },
+        "required": ["customerName", "date", "workingHours"]
       }
     }
   }
