@@ -7,11 +7,11 @@ participant "Database" as Database
 
 User -> BookingPage: Open booking page
 BookingPage -> BackendService: Request available slots: GET /api/bookings
-BackendService -> Database: Query available slots
-Database --> BackendService: Return available slots
-BackendService --> BookingPage: Display available slots
+BackendService -> Database: Query room
+Database --> BackendService: Return room
+BackendService --> BookingPage: Display room
 
-User -> BookingPage: Select a slot and submit booking
+User -> BookingPage: Select a slot available and submit booking
 BookingPage -> BackendService: Submit booking details POST /api/booking
 BackendService -> Database: Save booking details
 Database --> BackendService: Confirm booking saved
