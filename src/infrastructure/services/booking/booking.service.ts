@@ -21,17 +21,4 @@ export class BookingService {
       }))
     );
   }
-
-  // async createBooking(resourceId: string, userId: string) {
-  //   const booking = await this.prisma.bookings.create({
-  //     data: {
-  //       resourceId,
-  //       userId,
-  //       start: new Date(),
-  //       end: new Date(Date.now() + 60 * 60 * 1000), // 1 hour later
-  //       status: 'confirmed',
-  //     },
-  //   });
-  //   return booking;
-  // }
 }

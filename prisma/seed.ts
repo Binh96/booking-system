@@ -1,5 +1,5 @@
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../../../generated/prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -9,6 +9,11 @@ async function seedingData() {
 
   await prisma.roles.deleteMany({});
   await prisma.users.deleteMany({});
+  await prisma.resources.deleteMany({});
+  await prisma.bookings.deleteMany({});
+  await prisma.booking_policies.deleteMany({});
+  await prisma.opening_hours.deleteMany({});
+  await prisma.pricing_rules.deleteMany({});
 
   await prisma.roles.createMany({
     data: [
@@ -38,6 +43,23 @@ async function seedingData() {
         role_id: 2,
         status: 'active',
         membership_level: 'premium',
+      },
+    ],
+  });
+
+  await prisma.resources.createMany({
+    data: [
+      {
+        name: 'Conference Room',
+        type: 'meeting',
+        capacity: 3,
+        status: 'available',
+      },
+      {
+        name: 'Studio Room',
+        type: 'studio',
+        capacity: 3,
+        status: 'available',
       },
     ],
   });

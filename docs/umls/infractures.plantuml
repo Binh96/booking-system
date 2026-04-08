@@ -1,0 +1,26 @@
+@startuml Manager Infractures
+
+participant "Frontend" as FE
+participant "Backend" as BE
+participant "Database" as DB
+
+====== Create Infracture ======
+FE -> BE: POST /infractures
+alt Check if infracture already exists
+  note right of BE: Check if infracture with same type and same number exists
+  BE --> FE: 409 Conflict
+else
+  BE -> DB: INSERT INTO infractures
+  DB --> BE: Infracture created
+  BE --> FE: 201 Created
+end
+
+====== Edit Infracture ======
+FE -> BE: PUT /infractures/{id}
+alt Check if infracture exists
+  note right of BE: Check if infracture with given id exists
+  BE --> FE: 404 Not Found
+else
+  DB --> BE: Infracture updated
+  BE --> FE: 200 OK
+end

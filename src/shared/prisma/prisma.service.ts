@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService implements OnModuleInit, OnModuleDestroy {
-  public readonly adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  private readonly adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
   public readonly client = new PrismaClient({
     adapter: this.adapter,
     log: ['query', 'info', 'warn', 'error'],
